@@ -1,0 +1,24 @@
+#1
+wc -l ../data/fasta/*.fasta
+
+Explanation: wc -l uses the wc utility to count newline characters. The path ../data/fasta/*.fasta selects all files ending in .fasta in the ../data/fasta/ directory, which contains three matching files. The two numbered files do not end with a newline character, so their counts are one less than their actual numbers of text lines.
+
+#2
+tail -n +2 ../data/fasta/e_coli.fasta
+
+Explanation: tail -n +2 prints all lines from the second line to the end of e_coli.fasta. This excludes the first line, which contains the FASTA header.
+
+#3
+tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\r\n' | wc -m
+
+Explanation: tail -n +2 excludes the FASTA header. tr -d '\r\n' removes carriage returns and newline characters. wc -m then counts all remaining sequence characters.
+
+#4
+tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\r\n' | grep -o 'ATGC' | wc -l
+
+Explanation: tail -n +2 excludes the FASTA header, and tr -d '\r\n' removes line-ending characters so matches spanning lines can be detected. grep -o 'ATGC' prints each occurrence on a separate line, and wc -l counts these occurrences.
+
+#5
+AT=$(tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\r\n' | grep -o '[AT]' | wc -l); GC=$(tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\r\n' | grep -o '[GC]' | wc -l); echo "$AT / $GC" | bc -l
+
+Explanation: tail -n +2 excludes the FASTA header, and tr -d '\r\n' removes line-ending characters. grep -o '[AT]' and grep -o '[GC]', followed by wc -l, count A/T and G/C bases respectively. These counts are stored in AT and GC, and bc -l calculates the ratio (A + T)/(G + C).
