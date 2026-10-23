@@ -224,3 +224,57 @@ the calculated value matched the prediction. I then removed `browser()`.
 
 On 23 October 2026, I used ChatGPT for explanations, implementation
 examples, and guidance on command-line checks and interactive debugging.
+## Assignment 3: Pound Hill species richness
+
+### Run
+
+From the repository root:
+
+```bash
+Rscript code/pound_hill_analysis.R
+```
+
+Requires base R; no additional packages are needed.
+
+### Inputs and outputs
+
+Inputs, retained unchanged:
+
+- `data/pound_hill_data.csv`
+- `data/pound_hill_meta_data.csv`
+
+Generated outputs:
+
+- `results/pound_hill_plot_richness.csv`
+- `results/pound_hill_plot_richness.pdf`
+- `results/pound_hill_plot_abundance.csv`
+
+The script creates `results/` if needed and overwrites its outputs on rerun.
+Generated results are ignored by Git and can be recreated.
+
+### Analysis and checks
+
+The metadata defines blank species counts as observed absences, so these
+cells are converted to zero. Counts are reshaped to long form and checked
+to be finite and non-negative.
+
+The data contain 41 species, 59 quadrats and 12 plots. Quadrats are
+identified by Cultivation, Block, Plot and Quadrat together.
+
+Richness is the number of species with Count > 0 in each quadrat.
+Abundance is the sum of species counts in each quadrat. Both responses
+are averaged within plots before comparing treatments, giving each plot
+equal weight despite unequal numbers of sampled quadrats.
+
+Each output table contains one row per plot. The richness figure was
+inspected and displays all 12 plot values. Two separate Rscript runs
+produced identical SHA-256 hashes for each CSV.
+
+May has the highest mean richness, whereas October has the highest mean
+abundance. Interpretation and limitations are recorded in script comments.
+
+### Assistance
+
+On 23 October 2026, ChatGPT assisted with understanding the task,
+developing and explaining the R code, checking outputs and improving
+figure readability.
