@@ -138,3 +138,46 @@ examples, and help diagnosing code placement and indentation errors.
 The program follows the supplied metadata and permitted values.
 It does not infer missing values or correct unrecognised spellings.
 It expects the specified CSV columns and string-valued fields.
+## Assignment 3: Tree height calculation
+
+### Input and output
+
+- Input: `data/trees.csv` (120 records; kept unchanged).
+- Script: `code/TreeHeight.R`.
+- Output: `results/TreeHts.csv`.
+
+The script calculates height in metres using:
+`height_m = Distance.m * tan(Angle.degrees * pi / 180)`.
+
+It checks the column names, numeric types, finite values, and required
+distance and angle ranges. It preserves the original rows and columns,
+then appends `height_m` as the fourth column.
+
+### Running
+
+Run from the repository root:
+
+```bash
+Rscript code/TreeHeight.R
+```
+
+Alternatively, start R from the repository root and run:
+
+```r
+source("code/TreeHeight.R")
+```
+
+The script creates `results/` if needed and replaces the output on rerun.
+
+### Checks performed
+
+- Confirmed that the output contains 120 records.
+- Confirmed that the original three columns and row order are preserved.
+- Checked a separate example: distance = 8 m and angle = 45 degrees
+  gives height = 8 m.
+- Confirmed that running the script twice produces identical output.
+- Confirmed that the script works using both Rscript and source().
+
+### Assistance
+I used ChatGPT for step-by-step explanations,
+code examples, and guidance on checking the output.
