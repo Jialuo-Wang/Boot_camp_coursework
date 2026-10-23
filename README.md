@@ -181,3 +181,46 @@ The script creates `results/` if needed and replaces the output on rerun.
 ### Assistance
 I used ChatGPT for step-by-step explanations,
 code examples, and guidance on checking the output.
+### Generalized tree-height script
+
+Run from the repository root with exactly one readable CSV path:
+
+```bash
+Rscript code/get_TreeHeight.R data/trees.csv
+```
+
+Alternatively, run the supplied-data wrapper:
+
+```bash
+bash code/run_get_TreeHeight.sh
+```
+
+The wrapper stops if the R command fails.
+
+The input must contain the columns `Species`, `Distance.m`, and
+`Angle.degrees` in that order. The script applies the same input checks
+and height calculation as `TreeHeight.R`.
+
+Output is written to `results/<input-stem>_treeheights.csv`.
+For `data/trees.csv`, this is `results/trees_treeheights.csv`.
+The output preserves the original three columns and row order, and
+appends `height_m`. Rerunning replaces the output.
+
+The output name uses only the input basename. Inputs in different
+directories with the same basename therefore share an output filename.
+The script checks that the output path does not overwrite the input.
+
+Checks completed:
+- Missing and extra arguments produce a usage error.
+- A missing input file produces a clear error.
+- An incorrect header is rejected.
+- Repeated runs produce identical output, verified using SHA-256 hashes.
+
+For debugging, I temporarily placed `browser()` before the height
+calculation and started R with `R --vanilla --args data/trees.csv`.
+I inspected the first record and calculated an expected height of
+approximately 27.80212 m. After stepping through the calculation,
+the calculated value matched the prediction. I then removed `browser()`.
+
+On 23 October 2026, I used ChatGPT for explanations, implementation
+examples, and guidance on command-line checks and interactive debugging.
